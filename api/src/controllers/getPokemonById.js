@@ -7,7 +7,7 @@ const getPokemonById = async (req, res) => {
         const { id } = req.params;
 
         if (id.length > 4) {
-            const pokemonFromDB = await Pokemon.findOne({ // Buscamos el Pokémon en la base de datos;
+            const pokemonFromDB = await Pokemon.findOne({ // Buscamos si existe el Pokémon en la base de datos;
                 where: { id: id },
             });
             if (pokemonFromDB.id) {
@@ -18,7 +18,7 @@ const getPokemonById = async (req, res) => {
         const response = await axios.get(`${URL}/${id}`);
         const pokemonData = response.data;
 
-        const pokemonFromApi = {
+        const pokemonFromApi = { // Caso contrario buscamos si existe el Pokémon en la api;
             id: pokemonData.id,
             name: pokemonData.name,
             image: pokemonData.sprites.front_default,
@@ -29,7 +29,7 @@ const getPokemonById = async (req, res) => {
         };
         return res.status(200).json(pokemonFromApi);
     } catch (error) {
-        return res.status(404).json({ error: error.message });
+        return res.status(404).json({ message: "Pokémon no encontrado"  });
     }
 }
 
