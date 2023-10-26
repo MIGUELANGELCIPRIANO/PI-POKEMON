@@ -4,7 +4,7 @@ const URL = `http://pokeapi.co/api/v2/pokemon`
 
 const getAllPokemons = async (req, res) => {
   try {
-    const response = await axios.get(`${URL}?limit=10`);
+    const response = await axios.get(`${URL}?limit=40`);
 
     if (!response) {
         return res.status(404).send(error.message);
