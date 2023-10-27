@@ -1,6 +1,6 @@
 const { Pokemon } = require("../db");
-const axios = require('axios')
-const URL = `http://pokeapi.co/api/v2/pokemon`
+const axios = require('axios');
+const URL = `http://pokeapi.co/api/v2/pokemon`;
 
 const getAllPokemons = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ const getAllPokemons = async (req, res) => {
 
     const { results } = response.data;
 
-    const pokemonsFromApi = await Promise.all( // Retornamos todos los Pokémons de la api;
+    const pokemonsFromApi = await Promise.all( // Obtenemos todos los Pokémons de la API;
       results.map(async (pokemon) => {
         const pokemonData = await axios.get(pokemon.url);
 
@@ -24,10 +24,11 @@ const getAllPokemons = async (req, res) => {
       })
     );
 
-    const pokemonsFromDB = await Pokemon.findAll(); // Retornamos todos los Pokémons de la base de datos;
+    const pokemonsFromDB = await Pokemon.findAll(); // Obtenemos todos los Pokémons de la base de datos;
 
-    const allPokemons = [...pokemonsFromDB, ...pokemonsFromApi]
+    const allPokemons = [...pokemonsFromDB, ...pokemonsFromApi];
     return res.status(200).json(allPokemons);
+
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -36,5 +37,3 @@ const getAllPokemons = async (req, res) => {
 module.exports = {
   getAllPokemons
 };
-
-// attributes: ['id', 'name', 'image', 'hp', 'attack', 'defense'],
