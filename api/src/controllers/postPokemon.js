@@ -5,14 +5,15 @@ const URL = `http://pokeapi.co/api/v2/pokemon`
 
 const postPokemon = async (req, res) => {
   try {
-    const { name, hp, attack, defense, types } = req.body;
+    const { name, image, hp, attack, defense, types } = req.body;
 
-    if (!name || !hp || !attack || !defense || !types ) {
+    if (!name || !image || !hp || !attack || !defense || !types ) {
       return res.status(400).json({ message: "Faltan datos o tipos insuficientes" });
     }
 
     const newPokemon = await Pokemon.create({ // Crear el Pokémon en la base de datos;
       name,
+      image,
       hp: parseInt(hp),
       attack: parseInt(attack),
       defense: parseInt(defense),
