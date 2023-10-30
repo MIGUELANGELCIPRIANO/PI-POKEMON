@@ -4,11 +4,11 @@ const URL = `http://pokeapi.co/api/v2/pokemon`;
 
 const getAllPokemons = async (req, res) => {
   try {
-    const response = await axios.get(`${URL}?limit=40`);
+    const response = await axios.get(`${URL}?limit=50`); // Solicitud a la API para obtener la lista de Pokémons;
 
     const { results } = response.data;
 
-    const pokemonsFromApi = await Promise.all( // Obtenemos todos los Pokémons de la API;
+    const pokemonsFromApi = await Promise.all( // Obtenemos todos los Pokémons de la API con los atributos del modelo;
       results.map(async (pokemon) => {
         const pokemonData = await axios.get(pokemon.url);
 
@@ -26,8 +26,8 @@ const getAllPokemons = async (req, res) => {
 
     const pokemonsFromDB = await Pokemon.findAll(); // Obtenemos todos los Pokémons de la base de datos;
 
-    const allPokemons = [...pokemonsFromDB, ...pokemonsFromApi];
-    return res.status(200).json(allPokemons);
+    const allPokemons = [...pokemonsFromDB, ...pokemonsFromApi]; 
+    return res.status(200).json(allPokemons); // Retorna la lista de Pokémons de la API y de la base de datos;
 
   } catch (error) {
     return res.status(500).json({ error: error.message });
