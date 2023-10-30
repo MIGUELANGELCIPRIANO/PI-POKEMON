@@ -29,14 +29,5 @@ module.exports = (sequelize) => {
     type: DataTypes.STRING,
     allowNull: false,
    },
-   speed:{
-    type: DataTypes.INTEGER,
-   },
-   height:{
-    type: DataTypes.INTEGER,
-   },
-   weight:{
-    type: DataTypes.INTEGER,
-   }
   }, { timestamps: false });
 };
