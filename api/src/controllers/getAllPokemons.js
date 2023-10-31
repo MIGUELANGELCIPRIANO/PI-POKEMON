@@ -4,7 +4,7 @@ const URL = `http://pokeapi.co/api/v2/pokemon`;
 
 const getAllPokemons = async (req, res) => {
   try {
-    const response = await axios.get(`${URL}?limit=50`); // Solicitud a la API para obtener la lista de Pokémons;
+    const response = await axios.get(`${URL}?limit=151`); // Solicitud a la API para obtener la lista de Pokémons;
 
     const { results } = response.data;
 
@@ -19,7 +19,7 @@ const getAllPokemons = async (req, res) => {
           hp: pokemonData.data.stats.find((stat) => stat.stat.name === "hp").base_stat,
           attack: pokemonData.data.stats.find((stat) => stat.stat.name === "attack").base_stat,
           defense: pokemonData.data.stats.find((stat) => stat.stat.name === "defense").base_stat,
-          types: pokemonData.data.types.map((type) => type.type.name),
+          types: pokemonData.data.types.map((type) => type.type.name).join(" / "),
         };
       })
     );
