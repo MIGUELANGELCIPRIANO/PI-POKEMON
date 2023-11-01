@@ -4,7 +4,7 @@ import Home from './page/homePage/Home';
 import Landing from './page/landingPage/Landing';
 import Detail from './page/detailPage/Detail';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Routes>
