@@ -34,7 +34,7 @@ const getPokemonByName = async (req, res) => {
                     hp: pokemonData.stats.find((stat) => stat.stat.name === "hp").base_stat,
                     attack: pokemonData.stats.find((stat) => stat.stat.name === "attack").base_stat,
                     defense: pokemonData.stats.find((stat) => stat.stat.name === "defense").base_stat,
-                    types: pokemonData.types.map((type) => type.type.name),
+                    types: pokemonData.types.map((type) => type.type.name).join(" / "),
                 };
                 pokemonsFromApi.push(pokemonFound);
             }
