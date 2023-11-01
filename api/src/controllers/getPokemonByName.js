@@ -1,4 +1,4 @@
-const { Pokemon } = require("../db");
+const { Pokemon, Type } = require("../db");
 const axios = require('axios');
 const { Op } = require("sequelize");
 const URL = `http://pokeapi.co/api/v2/pokemon`;
@@ -10,8 +10,14 @@ const getPokemonByName = async (req, res) => {
 
         const pokemonsFromDB = await Pokemon.findAll({ // Verificar si existe el Pokémon en la base de datos;
             where: {
-                name: { [Op.iLike]: `%${lowercaseName}%` }, // [Op.iLike] busca registros cuyo campo coincida con el valor proporcionado sin distinción entre mayúsculas o minúsculas;
-            }
+                name: { [Op.iLike]: `%${lowercaseName}%` }, // `[Op.iLike]` busca registros cuyo campo coincida con el valor proporcionado sin distinción entre mayúsculas o minúsculas;
+            },
+            include: [ // Incluir los types asociados al Pokémon que coincide con el criterio de búsqueda;
+                {
+                  model: Type,
+                  through: { attributes: [] }, // `through` hace referencia a la tabla de relación y `{ attributes: [] }` evita traer atributos adicionales de dicha tabla;
+                },
+            ]
         });
 
         const pokemonsFromApi = [];
