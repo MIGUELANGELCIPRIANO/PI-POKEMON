@@ -27,7 +27,7 @@ const getPokemonById = async (req, res) => {
                 hp: pokemonData.stats.find((stat) => stat.stat.name === "hp").base_stat,
                 attack: pokemonData.stats.find((stat) => stat.stat.name === "attack").base_stat,
                 defense: pokemonData.stats.find((stat) => stat.stat.name === "defense").base_stat,
-                types: pokemonData.types.map((type) => type.type.name),
+                types: pokemonData.types.map((type) => type.type.name).join(" / "),
             };
             return res.status(200).json(pokemonFromApi); // Retorna el Pokémon de la API;
         }
