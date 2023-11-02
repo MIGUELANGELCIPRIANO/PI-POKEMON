@@ -5,30 +5,52 @@ const postPokemon = async (req, res) => {
     const { name, image, hp, attack, defense, types } = req.body;
 
     if (!name || !image || !hp || !attack || !defense || !types ) {
-      return res.status(404).json({ message: "Insufficient data or types" });
+      return res.status(400).json({ message: "Insufficient data or types" });
     }
 
-    const newPokemon = await Pokemon.create({ // Crear el Pokémon en la base de datos;
+    // Convierte los tipos en un array si se proporcionan como una cadena
+    const typesArray = types.split(" / ").map((type) => type.trim());
+
+    const newPokemon = await Pokemon.create({
       name,
       image,
       hp: parseInt(hp),
       attack: parseInt(attack),
-      defense: parseInt(defense)
+      defense: parseInt(defense),
     });
 
-    const typeRecords = await Type.findAll({ // Verificar si existen los Types en la base de datos;
+    const typeRecords = await Type.findAll({
       where: {
-        name: types
+        name: typesArray,
       },
     });
 
-    if (typeRecords.length === types.length) { // Verificar si los Types encontrados coinciden con types;
+    if (typeRecords.length === typesArray.length) {
+      await newPokemon.setTypes(typeRecords);
 
-      await newPokemon.setTypes(typeRecords); // Relacionar los Types encontrados con el nuevo Pokémon;
+      // Consulta nuevamente el Pokemon con los tipos relacionados
+      const pokemonWithTypes = await Pokemon.findOne({
+        where: { id: newPokemon.id },
+        include: [
+          {
+            model: Type,
+            through: { attributes: [] },
+          },
+        ],
+      });
 
-      return res.status(200).json(newPokemon); // Retorna el Pokémon creado de la base de datos;
+      return res.status(200).json({
+        id: pokemonWithTypes.id,
+        name: pokemonWithTypes.name,
+        image: pokemonWithTypes.image,
+        hp: pokemonWithTypes.hp,
+        attack: pokemonWithTypes.attack,
+        defense: pokemonWithTypes.defense,
+        types: pokemonWithTypes.types.map((type) => type.name).join(" / "),
+      });
     }
-    return res.status(404).json({ message: "One of the specified types does not exist" });
+    return res.status(400).json({ message: "One of the specified types does not exist" });
+
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -36,4 +58,4 @@ const postPokemon = async (req, res) => {
 
 module.exports = {
   postPokemon,
-}
+};
