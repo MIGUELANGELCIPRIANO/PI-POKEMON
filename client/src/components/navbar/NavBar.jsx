@@ -1,10 +1,14 @@
-// import './NavBar.css';
+import './NavBar.css';
+import Button from "../button/Button";
 
-function NavBar() {
+const NavBar = () => {
   return (
-    <div className="NavBar">
-        
-    </div>
+    <nav>
+        <Button path='/home' text='Home'></Button>
+        <Button path='/detail/:id' text='Detail'></Button>
+        <Button path='/form' text='Form'></Button>
+        <Button path='/' text='Logout'></Button>
+    </nav>
   );
 }
 
