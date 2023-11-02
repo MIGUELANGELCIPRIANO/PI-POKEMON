@@ -32,7 +32,7 @@ const getAllPokemons = async (req, res) => {
         {
           model: Type, 
           attributes: ["name"],
-          through: { attributes: [] } // En una relación `many-to-many` con una tabla 
+          through: { attributes: [] } // `through: { attributes: [] }` elimina cualquier atributo adicional de la tabla de unión en relaciones many-to-many; 
         },
       ],
     });
