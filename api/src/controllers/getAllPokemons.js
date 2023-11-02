@@ -50,6 +50,7 @@ const getAllPokemons = async (req, res) => {
     const allPokemons = [...pokemonsFromDBFiltered, ...pokemonsFromApi];
 
     return res.status(200).json(allPokemons);
+    
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
