@@ -1,6 +1,6 @@
 import './Cards.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getAllPokemons } from '../../redux/actions';
 import Card from '../card/Card';
 
