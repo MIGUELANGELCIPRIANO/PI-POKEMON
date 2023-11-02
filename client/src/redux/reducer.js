@@ -1,4 +1,4 @@
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL } from "./actionsTypes.js"
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, CLEAN_POKEMON_DETAIL, } from "./actionsTypes.js"
 
 
 const initialState = {
@@ -18,9 +18,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 pokemonDetail: action.payload
             }
+        case CLEAN_POKEMON_DETAIL:
+            return {
+                ...state,
+                pokemonDetail: {} 
+            }
         default:
             return {...state}
     }
 }
 
-export default reducer;
+export default reducer; 
