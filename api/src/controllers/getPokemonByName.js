@@ -8,26 +8,42 @@ const getPokemonByName = async (req, res) => {
         const { name } = req.query;
         const lowercaseName = name.toLowerCase();
 
-        const pokemonsFromDB = await Pokemon.findAll({ // Verificar si existe el Pokémon en la base de datos;
+        const pokemonsFromDB = await Pokemon.findAll({ // `findAll` consulta y recupera datos desde una base de datos local (como base de datos SQL) de acuerdo con los criterios de búsqueda proporcionados;
             where: {
                 name: { [Op.iLike]: `%${lowercaseName}%` }, // `[Op.iLike]` busca registros cuyo campo coincida con el valor proporcionado sin distinción entre mayúsculas o minúsculas;
             },
-            include: [ // Incluir los types asociados al Pokémon que coincide con el criterio de búsqueda;
+            include: [ // `include` array de objetos que define las relaciones que se deben incluir en la consulta;
                 {
-                  model: Type,
-                  through: { attributes: [] }, // `through` hace referencia a la tabla de relación y `{ attributes: [] }` evita traer atributos adicionales de dicha tabla;
+                    model: Type,
+                    through: { attributes: [] }, // `through: { attributes: [] }` elimina cualquier atributo adicional de la tabla de unión en relaciones many-to-many; 
                 },
             ]
         });
 
-        const pokemonsFromApi = [];
+        const allPokemons = [];
+
+        pokemonsFromDB.forEach((pokemon) => {
+            const pokemonFromDBFiltered = {
+                id: pokemon.id,
+                name: pokemon.name,
+                image: pokemon.image,
+                hp: pokemon.hp,
+                attack: pokemon.attack,
+                defense: pokemon.defense,
+                types: pokemon.types.map((type) => type.name).join(' / ')
+            };
+            allPokemons.push(pokemonFromDBFiltered);
+        });
+
+        let pokemonFromApi = null;
+
         try {
             const response = await axios.get(`${URL}/${lowercaseName}`); // Solicitud a la API para obtener el Pokémon por name;
 
             if (response.data) {
                 const pokemonData = response.data;
 
-                const pokemonFound = {
+                pokemonFromApi = {
                     id: pokemonData.id,
                     name: pokemonData.name,
                     image: pokemonData.sprites.front_default,
@@ -36,16 +52,19 @@ const getPokemonByName = async (req, res) => {
                     defense: pokemonData.stats.find((stat) => stat.stat.name === "defense").base_stat,
                     types: pokemonData.types.map((type) => type.type.name).join(" / "),
                 };
-                pokemonsFromApi.push(pokemonFound);
             }
-        } catch (error) { }
+        } catch (error) {
+            // Manejar errores de la solicitud a la API;
+        }
 
-        const allPokemons = [...pokemonsFromDB, ...pokemonsFromApi]; 
+        if (pokemonFromApi) {
+            allPokemons.push(pokemonFromApi);
+        }
 
         if (allPokemons.length === 0) {
             return res.status(404).json({ message: "Pokémon not found" });
         }
-        return res.status(200).json(allPokemons); // Retorna la lista de Pokémons de la API y de la base de datos que coincidan con name;
+        return res.status(200).json(allPokemons);
 
     } catch (error) {
         return res.status(500).json({ error: error.message });
