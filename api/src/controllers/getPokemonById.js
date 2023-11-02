@@ -17,7 +17,7 @@ const getPokemonById = async (req, res) => {
                   ],
             });
             if (pokemonFromDB) {
-                const pokemonFromDBFiltered = {
+                const pokemonFromDBFinded = {
                     id: pokemonFromDB.id,
                     name: pokemonFromDB.name,
                     image: pokemonFromDB.image,
@@ -26,7 +26,7 @@ const getPokemonById = async (req, res) => {
                     defense: pokemonFromDB.defense,
                     types: pokemonFromDB.types.map((type)=>type.name).join(" / ")
                 };
-                return res.status(200).json(pokemonFromDBFiltered);
+                return res.status(200).json(pokemonFromDBFinded);
             }  
         };
 
