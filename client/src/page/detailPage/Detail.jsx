@@ -2,7 +2,7 @@ import './Detail.css';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPokemonDetail } from '../../redux/actions';
+import { getPokemonDetail, cleanPokemonDetail } from '../../redux/actions';
 
 const Detail = () => {
   const params = useParams();
@@ -11,6 +11,8 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(getPokemonDetail(params?.id)); // Se monta el componente realizando un dispatch a la action;
+
+    return () => dispatch(cleanPokemonDetail());
   }, [params?.id]);
 
   return (
