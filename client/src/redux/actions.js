@@ -1,4 +1,4 @@
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL } from "./actionsTypes"
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, CLEAN_POKEMON_DETAIL, } from "./actionsTypes"
 import axios from "axios";
 
 const URL = `http://localhost:3001/pokemons`;
@@ -25,4 +25,8 @@ export const getPokemonDetail = (id) => {
             throw new Error(error.message);
         }
     };
+}
+
+export const cleanPokemonDetail = () => {
+    return { type: CLEAN_POKEMON_DETAIL }
 }
