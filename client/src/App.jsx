@@ -4,7 +4,7 @@ import NavBar from './components/navbar/NavBar';
 import Home from './page/homePage/Home';
 import Landing from './page/landingPage/Landing';
 import Detail from './page/detailPage/Detail';
-import Form from './page/formPage/Form';
+import Create from './page/formPage/Create';
 
 const App = () => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const App = () => {
         <Route path='' element={<Landing/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
         <Route path='/detail/:id' element={<Detail/>}></Route>
-        <Route path='/form' element={<Form/>}></Route>
+        <Route path='/form' element={<Create/>}></Route>
       </Routes>
     </div>
   );
