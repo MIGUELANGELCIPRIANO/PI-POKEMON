@@ -7,14 +7,15 @@ import Card from '../card/Card';
 
 const Cards = () => {
   const dispatch = useDispatch();
-  const { allPokemons } = useSelector((state) => state); // Solicitud al reducer para obtener la propiedad allPokemons del state;
+  const allPokemons = useSelector((state) => state.allPokemons);
 
   useEffect(() => {
-    dispatch(getAllPokemons()); // Se monta el componente realizando un dispatch a la action;
+    dispatch(getAllPokemons());
   }, []);
 
   return (
     <div className='Cards'>
+    <h1>Pokémon First Generation</h1>
       {
         allPokemons?.map((pokemon) => {
           return(
