@@ -8,7 +8,6 @@ const postPokemon = async (req, res) => {
       return res.status(400).json({ message: "Insufficient data or types" });
     }
 
-    // Convierte los tipos en un array si se proporcionan como una cadena
     const typesArray = types.split(" / ").map((type) => type.trim());
 
     const newPokemon = await Pokemon.create({
@@ -28,7 +27,6 @@ const postPokemon = async (req, res) => {
     if (typeRecords.length === typesArray.length) {
       await newPokemon.setTypes(typeRecords);
 
-      // Consulta nuevamente el Pokemon con los tipos relacionados
       const pokemonWithTypes = await Pokemon.findOne({
         where: { id: newPokemon.id },
         include: [
