@@ -32,7 +32,7 @@ const Create = () => {
 
   useEffect(() => {
     dispatch(getAllTypes());
-  }, [dispatch]);
+  }, []);
 
 
   const navigate = useNavigate();
