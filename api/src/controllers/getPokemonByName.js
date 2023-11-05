@@ -8,53 +8,49 @@ const getPokemonByName = async (req, res) => {
         const { name } = req.query;
         const lowercaseName = name.toLowerCase();
 
-        const pokemonsFromDB = await Pokemon.findAll({ // `findAll` consulta y recupera datos desde una base de datos local (como base de datos SQL) de acuerdo con los criterios de búsqueda proporcionados;
+        const pokemonsFromDB = await Pokemon.findAll({
             where: {
-                name: { [Op.iLike]: `%${lowercaseName}%` }, // `[Op.iLike]` busca registros cuyo campo coincida con el valor proporcionado sin distinción entre mayúsculas o minúsculas;
+                name: { [Op.iLike]: `%${lowercaseName}%` },
             },
-            include: [ // `include` array de objetos que define las relaciones que se deben incluir en la consulta;
+            include: [
                 {
-                    model: Type,
-                    through: { attributes: [] }, // `through: { attributes: [] }` elimina cualquier atributo adicional de la tabla de unión en relaciones many-to-many; 
+                  model: Type,
+                  through: { attributes: [] },
                 },
             ]
         });
 
         const allPokemons = [];
 
-        pokemonsFromDB.forEach((pokemon) => {
+        pokemonsFromDB.forEach((dbPokemon) => {
             const pokemonFromDBFiltered = {
-                id: pokemon.id,
-                name: pokemon.name,
-                image: pokemon.image,
-                hp: pokemon.hp,
-                attack: pokemon.attack,
-                defense: pokemon.defense,
-                types: pokemon.types.map((type) => type.name).join(' / ')
+                id: dbPokemon.id,
+                name: dbPokemon.name,
+                image: dbPokemon.image,
+                hp: dbPokemon.hp,
+                attack: dbPokemon.attack,
+                defense: dbPokemon.defense,
+                types: dbPokemon.types.map((type) => type.name).join(' / ')
             };
             allPokemons.push(pokemonFromDBFiltered);
         });
 
         let pokemonFromApi = null;
 
-        try {
-            const response = await axios.get(`${URL}/${lowercaseName}`); // Solicitud a la API para obtener el Pokémon por name;
+        const response = await axios.get(`${URL}/${lowercaseName}`);
 
-            if (response.data) {
-                const pokemonData = response.data;
+        if (response.data) {
+            const pokemonData = response.data;
 
-                pokemonFromApi = {
-                    id: pokemonData.id,
-                    name: pokemonData.name,
-                    image: pokemonData.sprites.front_default,
-                    hp: pokemonData.stats.find((stat) => stat.stat.name === "hp").base_stat,
-                    attack: pokemonData.stats.find((stat) => stat.stat.name === "attack").base_stat,
-                    defense: pokemonData.stats.find((stat) => stat.stat.name === "defense").base_stat,
-                    types: pokemonData.types.map((type) => type.type.name).join(" / "),
-                };
-            }
-        } catch (error) {
-            // Manejar errores de la solicitud a la API;
+            pokemonFromApi = {
+                id: pokemonData.id,
+                name: pokemonData.name,
+                image: pokemonData.sprites.front_default,
+                hp: pokemonData.stats.find((stat) => stat.stat.name === "hp").base_stat,
+                attack: pokemonData.stats.find((stat) => stat.stat.name === "attack").base_stat,
+                defense: pokemonData.stats.find((stat) => stat.stat.name === "defense").base_stat,
+                types: pokemonData.types.map((type) => type.type.name).join(" / "),
+            };
         }
 
         if (pokemonFromApi) {
