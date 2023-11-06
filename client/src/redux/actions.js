@@ -1,4 +1,4 @@
-import { GET_ALL_POKEMONS, GET_ALL_TYPES, GET_POKEMON_DETAIL, CLEAN_POKEMON_DETAIL, SEARCH_POKEMON, POKEMON_ORDER, FILTER_POKEMON_BY_SOURCE, FILTER_POKEMON_BY_TYPE } from "./actionsTypes"
+import { GET_ALL_POKEMONS, GET_ALL_TYPES, GET_POKEMON_DETAIL, CLEAN_POKEMON_DETAIL, SEARCH_POKEMON, SORT_POKEMON, FILTER_POKEMON } from "./actionsTypes"
 import axios from "axios";
 
 const URLPokemon = `http://localhost:3001/pokemons`;
@@ -67,14 +67,10 @@ export const searchPokemon = (name) => {
     }
 }
 
-export const pokemonOrder = (order) => {
-    return { type: POKEMON_ORDER, payload: order }
+export const sortPokemon = (order) => {
+    return { type: SORT_POKEMON, payload: order }
 }
 
-export const filterPokemonBySource = (source) => {
-    return { type: FILTER_POKEMON_BY_SOURCE, payload: source }
-}
-
-export const filterPokemonByType = (types) => {
-    return { type: FILTER_POKEMON_BY_TYPE, payload: types }
+export const filterPokemon = (filter) => {
+    return { type: FILTER_POKEMON, payload: filter }
 }
