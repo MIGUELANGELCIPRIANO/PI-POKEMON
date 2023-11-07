@@ -58,7 +58,9 @@ const Cards = () => {
               id={pokemon.id}
               name={pokemon.name}
               image={pokemon.image}
-              types={pokemon.types}
+              types={pokemon.types.split().map((type, index) => (
+                <span key={index}>{type}</span>
+              ))}
             />)
         })
       }
