@@ -2,13 +2,26 @@ import './Cards.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllPokemons, getAllTypes, sortPokemon, filterPokemon } from '../../redux/actions';
+import Pagination from '../../page/pagination/Pagination';
 import Card from '../card/Card';
 
 
-const Cards = () => {
+const Cards = ({ currentPage, setCurrentPage }) => {
   const dispatch = useDispatch();
   const allPokemons = useSelector((state) => state.allPokemons);
   const allTypes = useSelector((state) => state.allTypes);
+
+  const pokemonsPerPage = 12;
+  
+  const indexOfLastPokemons = currentPage * pokemonsPerPage;
+  const indexOfFirstPokemons = indexOfLastPokemons - pokemonsPerPage;
+  const currentPokemons = allPokemons ? allPokemons.slice(indexOfFirstPokemons, indexOfLastPokemons) : [];
+
+  const paginate = (pageNumber) => { setCurrentPage(pageNumber) };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [allPokemons]);
 
   useEffect(() => {
     dispatch(getAllPokemons());
@@ -25,6 +38,14 @@ const Cards = () => {
 
   return (
     <div className='Cards'>
+
+
+      {allPokemons.length > 0 ? <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(allPokemons.length / pokemonsPerPage)}
+        onPageChange={paginate}
+      /> : null}
+
 
       <select onChange={handleOrder}>
         <option value='Pokédex'>Pokédex</option>
@@ -51,7 +72,7 @@ const Cards = () => {
 
       <h1>Pokémon First Generation</h1>
       {
-        allPokemons?.map((pokemon) => {
+        currentPokemons?.map((pokemon) => {
           return (
             <Card
               key={pokemon.id}
