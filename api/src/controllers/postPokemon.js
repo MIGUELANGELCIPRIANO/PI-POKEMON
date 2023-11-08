@@ -8,9 +8,9 @@ const postPokemon = async (req, res) => {
       return res.status(400).json({ message: "Insufficient data or types" });
     }
 
-    const typesArray = types.split(" / ").map((type) => type.trim());
+    const typesArray = types.split(" / ").map((type) => type.trim()); // Convertir los Types en un array si se proporcionan como una cadena de texto eliminando espacios;
 
-    const newPokemon = await Pokemon.create({
+    const newPokemon = await Pokemon.create({ // `create` inserta un nuevo registro dentro de una base de datos local (como base de datos SQL);
       name,
       image,
       hp: parseInt(hp),
@@ -18,14 +18,14 @@ const postPokemon = async (req, res) => {
       defense: parseInt(defense),
     });
 
-    const typeRecords = await Type.findAll({
+    const typeRecords = await Type.findAll({ // Verificar si existen los Types en la base de datos;
       where: {
         name: typesArray,
       },
     });
 
     if (typeRecords.length === typesArray.length) {
-      await newPokemon.setTypes(typeRecords);
+      await newPokemon.setTypes(typeRecords); // Relacionar los Types encontrados con el nuevo Pokémon;
 
       const pokemonWithTypes = await Pokemon.findOne({
         where: { id: newPokemon.id },
