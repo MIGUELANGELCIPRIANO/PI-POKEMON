@@ -1,4 +1,3 @@
-import './Home.css';
 import { useState } from 'react';
 import Cards from '../../components/cards/Cards';
 import SearchBar from '../../components/searchBar/SearchBar';

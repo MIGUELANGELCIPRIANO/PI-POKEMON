@@ -1,4 +1,3 @@
-import './Card.css';
 import { Link } from 'react-router-dom';
 
 const Card = ({ id, name, image, types }) => {

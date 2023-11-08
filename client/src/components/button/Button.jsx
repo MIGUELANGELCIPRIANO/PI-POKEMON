@@ -1,4 +1,3 @@
-import './Button.css';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllPokemons } from '../../redux/actions';

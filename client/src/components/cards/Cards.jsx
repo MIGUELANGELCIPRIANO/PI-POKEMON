@@ -1,4 +1,3 @@
-import './Cards.css';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllPokemons, getAllTypes, sortPokemon, filterPokemon } from '../../redux/actions';

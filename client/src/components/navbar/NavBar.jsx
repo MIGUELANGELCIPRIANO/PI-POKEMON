@@ -1,4 +1,3 @@
-import './NavBar.css';
 import Button from "../button/Button";
 
 const NavBar = () => {
