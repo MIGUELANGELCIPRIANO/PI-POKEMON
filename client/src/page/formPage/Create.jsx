@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import validations from './validations';
 import { getAllTypes, postPokemon } from '../../redux/actions';
+import styles from './Create.module.css';
 
 const Create = () => {
   const [input, setInput] = useState({
@@ -69,40 +70,38 @@ const Create = () => {
 
       <h1>Create your Pokémon!</h1>
 
+      <div className={styles.inputContainer}>
       <label htmlFor="name">Name: </label>
       <input type="text" name="name" value={input.name} onChange={handleChange} />
       {errors.name && <p>{errors.name}</p>}
-      <br /><br />
 
       <label htmlFor="image">Image URL: </label>
       <input type="text" name="image" value={input.image} onChange={handleChange} />
       {errors.image && <p>{errors.image}</p>}
-      <br /><br />
 
       <label htmlFor="hp">HP: </label>
       <input type="text" name="hp" value={input.hp} onChange={handleChange} />
       {errors.hp && <p>{errors.hp}</p>}
-      <br /><br />
 
       <label htmlFor="attack">Attack: </label>
       <input type="text" name="attack" value={input.attack} onChange={handleChange} />
       {errors.attack && <p>{errors.attack}</p>}
-      <br /><br />
 
       <label htmlFor="defense">Defense: </label>
       <input type="text" name="defense" value={input.defense} onChange={handleChange} />
       {errors.defense && <p>{errors.defense}</p>}
-      <br /><br />
+      
 
       <label htmlFor="types">Types: </label>
+      <div className={styles.typesContainer}>
       {allTypes?.map((type) => (
         <label key={type.id}> <input type="checkbox" name="types" value={type.name} checked={input.types.includes(type.name)} onChange={handleChange} /> {type.name} </label>
       ))}
+      </div>
       {errors.types && <p>{errors.types}</p>}
-      <br /><br />
 
       <button type="submit" disabled={!input.name || errors.name || errors.image || errors.hp || errors.attack || errors.defense || input.types.length === 0 || input.types.length > 2}>Create Pokémon</button>
-
+      </div>
     </form>
   );
 };
