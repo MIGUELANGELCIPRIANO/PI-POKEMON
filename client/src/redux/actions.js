@@ -62,7 +62,7 @@ export const searchPokemon = (name) => {
             const data = response.data;
             dispatch({ type: SEARCH_POKEMON, payload: data });
         } catch (error) {
-            throw new Error(error.message);
+            window.alert('Pokémon not found');
         }
     }
 }
