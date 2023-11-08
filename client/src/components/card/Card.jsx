@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import styles from './Card.module.css';
 
 const Card = ({ id, name, image, types }) => {
   return (
-    <div className="Card">
+    <div className={styles.container}>
       <h2>{name}</h2>
       <Link to={`/detail/${id}`}>
         <img src={image} alt={name} />
