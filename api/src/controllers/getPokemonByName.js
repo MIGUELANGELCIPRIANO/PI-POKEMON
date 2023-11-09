@@ -2,6 +2,7 @@ const { Pokemon, Type } = require("../db");
 const axios = require('axios');
 const { Op } = require("sequelize");
 const URL = `http://pokeapi.co/api/v2/pokemon`;
+
 const getPokemonByName = async (req, res) => {
     try {
         const { name } = req.query;
