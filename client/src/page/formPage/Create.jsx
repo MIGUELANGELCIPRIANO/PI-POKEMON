@@ -100,7 +100,7 @@ const Create = () => {
       </div>
       {errors.types && <p>{errors.types}</p>}
 
-      <button type="submit" disabled={!input.name || errors.name || errors.image || errors.hp || errors.attack || errors.defense || input.types.length === 0 || input.types.length > 2}>Create Pokémon</button>
+      <button type="submit" disabled={!input.name || !/^[a-z]+$/.test(input.name) || errors.name || errors.image || errors.hp || errors.attack || errors.defense || input.types.length === 0 || input.types.length > 2}>Create Pokémon</button>
       </div>
     </form>
   );
