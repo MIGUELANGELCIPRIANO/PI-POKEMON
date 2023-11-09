@@ -50,7 +50,7 @@ export const postPokemon = (input) => {
             const { data } = await axios.post(URLPokemon, input);
             return data;
         } catch (error) {
-            throw new Error(error.message);
+            window.alert("The Pokémon's name already exists");
         }
     }
 }
@@ -62,7 +62,7 @@ export const searchPokemon = (name) => {
             const data = response.data;
             dispatch({ type: SEARCH_POKEMON, payload: data });
         } catch (error) {
-            window.alert('Pokémon not found');
+            window.alert("Pokémon not found");
         }
     }
 }
